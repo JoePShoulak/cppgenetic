@@ -8,20 +8,14 @@
 
 using namespace std;
 
-char randomLetter()
-{
-  return "abcdefghijklmnopqrstuvwxyz"[rand() % 26];
-}
-
 class Codebreaker : public Lifeform<char>
 {
 public:
   Codebreaker(const vector<char> &dna) : Lifeform<char>(dna) {};
-  Codebreaker() : Lifeform<char>({randomLetter(),
-                                  randomLetter(),
-                                  randomLetter(),
-                                  randomLetter(),
-                                  randomLetter()}) {};
+  Codebreaker() : Lifeform<char>({"abcdefghijklmnopqrstuvwxyz"[rand() % 26],
+                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
+                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
+                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26]}) {};
 
   float fitness() override
   {
@@ -54,25 +48,6 @@ public:
       newDna.push_back((rand() % 2 == 0 ? dna : partner.dna)[i]);
 
     return Codebreaker(newDna);
-  }
-
-  void summarize(string name)
-  {
-    cout << "Codebreaker " << name << endl;
-    cout << "  DNA: ";
-
-    for (int i = 0; i < dna.size(); i++)
-    {
-      cout << dna[i];
-
-      if (i != dna.size() - 1)
-        cout << ", ";
-    }
-
-    cout << endl;
-
-    cout << "  SCORE: " << fitness() << endl
-         << endl;
   }
 };
 
