@@ -3,39 +3,59 @@
 
 #include <vector>
 #include <limits>
+#include <cmath>
 
 using namespace std;
 
 // Genetic class handles the lifeforms and is the iterator class
+// TODO: Restrict to Lifeforms only
 template <typename T>
 class Genetic
 {
   int populationLimit;
   float mutationRate;
   int genCount = 0;
+  float bias = 1; // 0 means no bias (everyone chosen evenly)
+                  // 1 results in a basic weighted sum
+                  // (0, 1) results in a smaller bias
+                  // (1, inf) results in a larger bias
 
   vector<T> population;
 
-public:
-  Genetic(int populationLimit, float mutationRate) : populationLimit(populationLimit), mutationRate(mutationRate) {};
-
-  void begin()
+  T selectMember()
   {
+    float totalFitness;
 
+    for (T m : population)
+      totalFitness += pow(m.fitness(), bias);
+
+    int i = 0;
+    int randomNum = max(rand() % int(totalFitness), 1);
+
+    while (randomNum > 0)
+      randomNum -= population[i++].fitness();
+
+    return population[i - 1];
+  }
+
+public:
+  Genetic(int populationLimit, float mutationRate, float bias = 1) : populationLimit(populationLimit), mutationRate(mutationRate), bias(bias) {};
+
+  void begin(bool verbose = false)
+  {
     while (population.size() < populationLimit)
     {
       T newMember;
       population.push_back(newMember);
     }
+
+    if (verbose)
+      display();
   }
 
-  T selectMember()
+  void iterate(bool verbose = false)
   {
-    return population[rand() % populationLimit]; // Placeholder
-  }
-
-  void progenate()
-  {
+    // Progenate
     vector<T> newPopulation;
 
     while (newPopulation.size() < populationLimit)
@@ -48,23 +68,17 @@ public:
     }
 
     population = newPopulation;
-  }
 
-  void mutate()
-  {
+    // Mutate
     for (T &m : population)
-    {
       if (rand() % 100 / 100 < mutationRate)
         m.mutate();
-    }
-  }
 
-  void iterate()
-  {
-    progenate();
-    mutate();
-
+    // Cleanup
     genCount++;
+
+    if (verbose)
+      display();
   }
 
   T bestMember()
@@ -72,10 +86,8 @@ public:
     T best = population[0];
 
     for (int i = 1; i < populationLimit; i++)
-    {
       if (population[i].fitness() > best.fitness())
         best = population[i];
-    }
 
     return best;
   }

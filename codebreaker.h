@@ -8,37 +8,36 @@
 
 using namespace std;
 
+char randomLetter()
+{
+  return "abcdefghijklmnopqrstuvwxyz"[rand() % 26];
+}
+
 class Codebreaker : public Lifeform<char>
 {
 public:
   Codebreaker(const vector<char> &dna) : Lifeform<char>(dna) {};
-  Codebreaker() : Lifeform<char>({"abcdefghijklmnopqrstuvwxyz"[rand() % 26],
-                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
-                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
-                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
-                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26]}) {};
+  Codebreaker() : Lifeform<char>({randomLetter(),
+                                  randomLetter(),
+                                  randomLetter()}) {};
 
   float fitness() override
   {
     float score = 0;
+    vector<char> solution({'j', 'o', 'e'});
 
-    for (int i = 0; i < dna.size() - 1; i++)
+    for (int i = 0; i < dna.size(); i++)
     {
-      if (int(dna[i]) < int(dna[i + 1]))
+      if (dna[i] == solution[i])
         score++;
     }
 
-    return score / (dna.size() - 1);
+    return score / dna.size();
   }
 
   void mutate() override
   {
-    char swap = dna[0];
-
-    for (int i = 0; i < dna.size() - 1; i++)
-      dna[i] = dna[i + 1];
-
-    dna[dna.size() - 1] = swap;
+    dna[rand() % dna.size()] = randomLetter();
   }
 
   Codebreaker breed(const Codebreaker &partner)

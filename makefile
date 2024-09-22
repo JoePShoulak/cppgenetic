@@ -9,7 +9,7 @@ main.exe: main.cpp
 clean:
 	rm -f *.exe *.o
 
-remake: clean make
+remake: clean main.exe
 
 count:
 	find . -type f \( -name "*.cpp" -o -name "*.h" \) ! -path "./ext/*" ! -path "./tests/*" ! -name pugixml.cpp -exec wc -l {} +
