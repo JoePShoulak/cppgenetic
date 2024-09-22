@@ -1,21 +1,13 @@
-STD = c++17
-CC = g++
-
-BINARY = main.exe
-
-main.exe: main.cpp
-	$(CC) -std=$(STD) -Wno-psabi -fPIC -o main.exe main.cpp
+default: examples
 
 clean:
 	rm -f *.exe *.o
-	cd examples && rm -f *.exe *.o
-
-remake: clean main.exe
+	make clean -C examples
 
 count:
 	find . -type f \( -name "*.cpp" -o -name "*.h" \) -exec wc -l {} +
 
 examples:
-	cd examples && make
+	make -C examples/
 
-.PHONY: clean count remake examples
+.PHONY: clean count examples default

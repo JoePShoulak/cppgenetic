@@ -1,10 +1,15 @@
 STD = c++17
 CC = g++
 
-wordsearch: wordsearch.cpp
-	$(CC) -std=$(STD) -Wno-psabi -fPIC -o wordsearch wordsearch.cpp
+SRCS = $(wildcard *.cpp)
+BINS = $(patsubst %.cpp,%,$(SRCS))
+
+all: $(BINS)
+
+%: %.cpp
+	$(CC) -std=$(STD) -Wno-psabi -fPIC -o $@ $<
 
 clean:
-	rm -f *.exe *.o
+	rm -f $(BINS) *.o
 
-.PHONY: clean
+.PHONY: clean all
