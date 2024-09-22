@@ -4,7 +4,7 @@ CC = g++
 BINARY = main.exe
 
 main.exe: main.cpp
-	g++ -std=c++17 -Wno-psabi -fPIC -o main.exe main.cpp
+	$(CC) -std=$(STD) -Wno-psabi -fPIC -o main.exe main.cpp
 
 clean:
 	rm -f *.exe *.o
