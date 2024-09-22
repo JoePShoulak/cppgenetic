@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['cppgenetic_26',['cppgenetic',['../md_README.html',1,'']]]
+  ['cppgenetic_0',['CPPGenetic',['../md_README.html',1,'']]]
 ];

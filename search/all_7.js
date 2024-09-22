@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['mutate_11',['mutate',['../classLifeform.html#a20f1a4c017c134c7a58932bafd4d6555',1,'Lifeform']]]
+  ['license_0',['License',['../md_README.html#autotoc_md4',1,'']]],
+  ['lifeform_1',['lifeform',['../classLifeform.html',1,'Lifeform&lt; T &gt;'],['../classLifeform.html#ad03627e1edb7522cc92357b8cd34ee60',1,'Lifeform::Lifeform()']]],
+  ['list_2',['Todo List',['../todo.html',1,'']]]
 ];
