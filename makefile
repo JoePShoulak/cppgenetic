@@ -1,5 +1,8 @@
 default: examples
 
+examples:
+	make -C examples/
+
 clean:
 	rm -f *.exe *.o
 	make clean -C examples
@@ -7,7 +10,4 @@ clean:
 count:
 	find . -type f \( -name "*.cpp" -o -name "*.h" \) -exec wc -l {} +
 
-examples:
-	make -C examples/
-
-.PHONY: clean count examples default
+.PHONY: default examples clean count

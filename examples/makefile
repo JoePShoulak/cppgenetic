@@ -7,7 +7,7 @@ BINS = $(patsubst %.cpp,%,$(SRCS))
 all: $(BINS)
 
 %: %.cpp
-	$(CC) -std=$(STD) -Wno-psabi -fPIC -o $@ $<
+	$(CC) -std=$(STD) -fPIC -o $@ $<
 
 clean:
 	rm -f $(BINS) *.o
