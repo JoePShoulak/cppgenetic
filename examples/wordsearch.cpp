@@ -3,10 +3,10 @@
 // ===== SETTINGS AND PRE-DEFINITIONS =====
 #define POPULATION 1000
 #define MUTATION_RATE 1.0 / POPULATION
-#define BIAS 1
+#define BIAS 0.5
 
 std::string genePool = "abcdefghijklmnopqrstuvwxyz"; // All possible genes
-std::string solution = "zach";                       // The word we're searching for
+std::string solution = "genetic";                    // The word we're searching for
 int genomeLength = solution.size();                  // Genome length must be solution length
 
 // ====== MINOR HELPER FUNCTIONS ======

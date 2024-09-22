@@ -34,3 +34,8 @@
 # Doxygen directories
 html
 latex
+
+# Examples
+examples/*
+!examples/*.cpp
+!examples/*.h
