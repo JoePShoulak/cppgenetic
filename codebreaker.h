@@ -8,6 +8,8 @@
 
 using namespace std;
 
+vector<char> solution({'j', 'o', 'e'});
+
 char randomLetter()
 {
   return "abcdefghijklmnopqrstuvwxyz"[rand() % 26];
@@ -24,7 +26,6 @@ public:
   float fitness() override
   {
     float score = 0;
-    vector<char> solution({'j', 'o', 'e'});
 
     for (int i = 0; i < dna.size(); i++)
     {

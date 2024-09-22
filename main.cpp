@@ -7,6 +7,7 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
+  cout << endl;
   srand(time(0));
 
   Genetic<Codebreaker> genetic(100, 0.1);
@@ -16,11 +17,11 @@ int main(int argc, char **argv)
   while (genetic.bestMember().fitness() < 1)
     genetic.iterate(true);
 
-  cout << "\nBest DNA: ";
+  cout << "Best DNA: ";
   for (auto c : genetic.bestMember().dna)
     cout << c;
 
-  cout << "\n"
+  cout << endl
        << endl;
 
   return 0;

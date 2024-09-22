@@ -7,9 +7,36 @@
 
 using namespace std;
 
+// Lifeform class, used as the members of the genetic class.
+// One must make a child class off this with definitions for the methods so it can function.
+template <typename T>
+class Lifeform
+{
+public:
+  vector<T> dna;
+
+  Lifeform<T>(const vector<T> &dna) : dna(dna){};
+
+  // score the lifeform
+  virtual float fitness()
+  {
+    return -numeric_limits<float>::max();
+  }
+
+  // combine the DNA in some way
+  virtual Lifeform breed(const Lifeform &partner)
+  {
+    return Lifeform(dna);
+  }
+
+  // do something to DNA
+  virtual void mutate() {}
+};
+
 // Genetic class handles the lifeforms and is the iterator class
 // TODO: Restrict to Lifeforms only
 template <typename T>
+// template <typename U, typename T, typename = std::enable_if_t<std::is_base_of<Lifeform<U>, T>::value>>
 class Genetic
 {
   int populationLimit;
@@ -94,36 +121,11 @@ public:
 
   void display()
   {
-    cout << "\nGen Cout: " << genCount << endl;
+    cout << "Gen Cout: " << genCount << endl;
     cout << "Pop size: " << population.size() << endl;
-    cout << "Best fitness: " << bestMember().fitness() << endl;
+    cout << "Best fitness: " << bestMember().fitness() << endl
+         << endl;
   }
-};
-
-// Lifeform class, used as the members of the genetic class.
-// One must make a child class off this with definitions for the methods so it can function.
-template <typename T>
-class Lifeform
-{
-public:
-  vector<T> dna;
-
-  Lifeform<T>(const vector<T> &dna) : dna(dna){};
-
-  // score the lifeform
-  virtual float fitness()
-  {
-    return -numeric_limits<float>::max();
-  }
-
-  // combine the DNA in some way
-  virtual Lifeform breed(const Lifeform &partner)
-  {
-    return Lifeform(dna);
-  }
-
-  // do something to DNA
-  virtual void mutate() {}
 };
 
 #endif
