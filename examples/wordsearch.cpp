@@ -5,7 +5,12 @@
 
 using namespace std;
 
-string solution = "genetic";
+// FIXME: Floating point exception (core dumped), for low population
+#define POPULATION 100
+#define MUTATION_RATE 0.01
+#define BIAS 1
+
+string solution = "zach";
 int dnaLength = solution.size();
 
 char randomLetter()
@@ -34,10 +39,8 @@ public:
     float score = 0;
 
     for (int i = 0; i < dna.size(); i++)
-    {
       if (dna[i] == solution[i])
         score++;
-    }
 
     return score / dna.size();
   }
@@ -63,7 +66,7 @@ int main(int argc, char **argv)
   cout << endl;
   srand(time(0));
 
-  Genetic<Wordsearcher> genetic(100, 0.01);
+  Genetic<Wordsearcher> genetic(POPULATION, MUTATION_RATE, BIAS);
 
   genetic.begin(true);
 
