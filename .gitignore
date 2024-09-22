@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Doxygen directories
+html
+latex

@@ -6,7 +6,7 @@
 #define BIAS 1
 
 std::string genePool = "abcdefghijklmnopqrstuvwxyz"; // All possible genes
-std::string solution = "genetic";                    // The word we're searching for
+std::string solution = "zach";                       // The word we're searching for
 int genomeLength = solution.size();                  // Genome length must be solution length
 
 // ====== MINOR HELPER FUNCTIONS ======
@@ -55,14 +55,14 @@ public:
   }
 
   // Breeding will randomly choose between which parent to take from for each gene
-  Wordsearcher breed(const Wordsearcher &partner)
+  Wordsearcher *breed(const Lifeform &partner) const override
   {
     std::vector<char> newgenome;
 
     for (int i = 0; i < genome.size(); i++)
       newgenome.push_back((rand() % 2 == 0 ? genome : partner.genome)[i]);
 
-    return Wordsearcher(newgenome);
+    return new Wordsearcher(newgenome);
   }
 };
 

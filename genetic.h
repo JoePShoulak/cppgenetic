@@ -5,54 +5,76 @@
 #include <cmath>
 #include <iostream>
 
-// ===== LIFEFORM TEMPLATE CLASS =====
-// One must make a child class of this with definitions for the methods so it can function.
+/**
+ * @interface Lifeform
+ * @brief Template class for use as members of the Genetic Class
+ * @note One must make a child class of this with definitions for the methods so it can function.
+ */
 template <typename T>
 class Lifeform
 {
 public:
+  /// @brief The genome to be refined into the solution for the algorithm.
   std::vector<T> genome;
 
-  Lifeform<T>(const std::vector<T> &genome) : genome(genome){};
+  /**
+   * @brief Default Lifeform constructor.
+   */
+  Lifeform(const std::vector<T> &genome) : genome(genome) {};
 
-  // score the lifeform
-  // TODO: possibly validate: fitness cannot be negative
-  virtual float fitness()
-  {
-    return 0;
-  }
+  /**
+   * @todo possibly validate: fitness cannot be negative.
+   * @brief Null default method for evaluating fitness
+   * @note Must be overridden in child class
+   * @return A number representing fitness, where greater means more fit.
+   */
+  virtual float fitness() = 0;
 
-  // combine the genome in some way
-  virtual Lifeform breed(const Lifeform &partner)
-  {
-    return Lifeform(genome);
-  }
+  /**
+   * @brief Null default method for combining genomes into new Lifeforms
+   * @param partner The partner to breed with.
+   * @note Must be overridden in child class
+   * @return A new Lifeform with a genome derived from its parents' genomes
+   */
+  virtual Lifeform *breed(const Lifeform &partner) const = 0;
 
-  // do something to genome
-  virtual void mutate() {}
+  /**
+   * @brief Null default method for introducting variation in a genome
+   * @note Must be overridden in child class
+   */
+  virtual void mutate() = 0;
 };
 
-// ===== GENETIC CLASS =====
-// TODO: Restrict to Lifeforms only
+/**
+ * @todo Restrict to Lifeforms only.
+ * @brief A class for managing the Genetic Algorithm and Populations of Lifeforms
+ */
 template <typename T>
 class Genetic
 {
   T bestMember;
   float totalFitness = 0;
   int genCount = 1;
+  bool max;
+
   int popLimit;       // popLimit must be 2+
   float mutationRate; // mutationRate should be >0 (0 means no mutation)
-  float bias = 1;     /* BIAS
-                        Cannot be negative
-                        0 means no bias (everyone chosen evenly)
-                        1 results in a basic weighted sum
-                        (0, 1) results in a smaller bias (for fitnesses >1, inverted otherwise)
-                        (1, inf) results in a larger bias (for fitnesses >1, inverted otherwise)
-                      */
+
+  /**
+   * Cannot be negative
+   * 0 means no bias (everyone chosen evenly)
+   * 1 results in a basic weighted sum
+   * (0, 1) results in a smaller bias (for fitnesses >1, inverted otherwise)
+   * (1, inf) results in a larger bias (for fitnesses >1, inverted otherwise)
+   */
+  float bias = 1;
 
   std::vector<T> population;
 
-  // Select a member with bias for fitness from the population
+  /**
+   * @brief Select a member with bias for fitness from the population
+   * @return A member of the population, chosen with bias for fitness
+   */
   T selectMember()
   {
     // totalFitness could be 0, so we have to max with 1 to avoid % 0
@@ -66,8 +88,12 @@ class Genetic
     return population[i - 1];
   }
 
-  // Returns fitness but with a selection bias
-  // TODO: Not sure how this works with negatives of mins
+  /**
+   * @todo Not sure how this works with negatives or mins
+   * @brief Returns fitness but with a selection bias
+   * @param member The lifeform to get the biased fitness of.
+   * @return The biased fitness of a given member
+   */
   float biasedFitness(T member)
   {
     int sign = 1;
@@ -83,18 +109,33 @@ class Genetic
   }
 
 public:
-  // TODO: validate some of these numbers? They should all be either positive or non-neg
-  Genetic(int popLimit, float mutationRate, float bias = 1) : popLimit(popLimit),
-                                                              mutationRate(mutationRate),
-                                                              bias(bias) {};
+  /**
+   * @todo validate some of these numbers? They should all be either positive or non-neg
+   * @brief Constructor for the Genetic class
+   * @param popLimit The population limit.
+   * @param mutationRate The rate of mutation.
+   * @param bias The mutation bias.
+   * @param max If true, select for max fitness. Otherwise select for min fitness.
+   */
+  Genetic(int popLimit, float mutationRate, float bias = 1, bool max = true) : popLimit(popLimit),
+                                                                               mutationRate(mutationRate),
+                                                                               bias(bias),
+                                                                               max(max) {};
 
-  // Accessor because this should technically be private
+  /**
+   * @brief Accessor for genCount
+   * @return The current generation index of the simulation
+   */
   int getGenCount()
   {
     return genCount;
   }
 
-  // Initialize the population, verbose flag for output
+  /**
+   * @brief Initialize the population, verbose flag for output
+   * @param verbose If true, print verbose information.
+   * @return The current generation index of the simulation
+   */
   void begin(bool verbose = false)
   {
     while (population.size() < popLimit)
@@ -108,7 +149,10 @@ public:
       display();
   }
 
-  // Create the next generation by progenation and mutation
+  /**
+   * @brief Create the next generation by progenation and mutation
+   * @param verbose If true, print verbose information.
+   */
   void iterate(bool verbose = false)
   {
     // Progenate
@@ -120,7 +164,9 @@ public:
       auto parentB = selectMember();
       auto child = parentA.breed(parentB);
 
-      newPopulation.push_back(child);
+      newPopulation.push_back(*child);
+
+      delete child;
     }
 
     population = newPopulation;
@@ -137,7 +183,9 @@ public:
 
       if (i == 0)
         bestMember = population[i];
-      else if (population[i].fitness() > bestMember.fitness())
+      else if (max && population[i].fitness() > bestMember.fitness())
+        bestMember = population[i];
+      else if (!max && population[i].fitness() < bestMember.fitness())
         bestMember = population[i];
     }
 
@@ -148,14 +196,20 @@ public:
       display();
   }
 
-  // Call iterate() until our bestMember has a fitness at or above our goal
+  /**
+   * @brief Call iterate() until our bestMember has a fitness at or above our goal
+   * @param fitnessGoal The goal to reach.
+   * @param verbose If true, print verbose information.
+   */
   void iterateUntil(float fitnessGoal, bool verbose = false)
   {
     while (bestMember.fitness() < fitnessGoal)
       iterate(verbose);
   }
 
-  // Display a summary of the current generation
+  /**
+   * @brief Display a summary of the current generation
+   */
   void display()
   {
     std::cout << "Gen count: " << genCount << std::endl;
