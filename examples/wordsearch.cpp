@@ -6,9 +6,8 @@
 
 using namespace std;
 
-// FIXME: Floating point exception (core dumped), for low population
-#define POPULATION 1000
-#define MUTATION_RATE 0.001
+#define POPULATION 10
+#define MUTATION_RATE 0.1
 #define BIAS 1
 
 string genePool = "abcdefghijklmnopqrstuvwxyz";

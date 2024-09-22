@@ -20,7 +20,7 @@ public:
   // score the lifeform
   virtual float fitness()
   {
-    return -numeric_limits<float>::max();
+    return -numeric_limits<float>::max(); // This is not the floating point error
   }
 
   // combine the DNA in some way
@@ -57,7 +57,7 @@ class Genetic
       totalFitness += pow(m.fitness(), bias);
 
     int i = 0;
-    int randomNum = max(rand() % int(totalFitness), 1);
+    int randomNum = max(rand() % max(int(totalFitness), 1), 1);
 
     while (randomNum > 0)
       randomNum -= population[i++].fitness();
@@ -88,7 +88,8 @@ public:
   void iterate(bool verbose = false)
   {
     // Progenate
-    vector<T> newPopulation;
+    cout << "Progenate called" << endl;
+    vector<T> newPopulation = {};
 
     while (newPopulation.size() < populationLimit)
     {
@@ -102,6 +103,7 @@ public:
     population = newPopulation;
 
     // Mutate
+    cout << "Mutate called" << endl;
     for (T &m : population)
       if (rand() % 100 / 100 < mutationRate)
         m.mutate();
