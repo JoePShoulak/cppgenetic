@@ -79,7 +79,7 @@ int main(int argc, char **argv)
   genetic.iterateUntil(1, true); // Run until we reach out fitness goal, true for verbose
 
   int guesses = POPULATION * genetic.getGenCount();
-  double bruteExpectation = pow(26, dnaLength);
+  double bruteExpectation = pow(genePool.length(), dnaLength);
   float percent = guesses / bruteExpectation * 100;
 
   // Summarize our results
