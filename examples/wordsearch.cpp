@@ -1,21 +1,23 @@
 #include <vector>
 #include <iostream>
+#include <cmath>
 
 #include "../genetic.h"
 
 using namespace std;
 
 // FIXME: Floating point exception (core dumped), for low population
-#define POPULATION 100
-#define MUTATION_RATE 0.01
+#define POPULATION 1000
+#define MUTATION_RATE 0.001
 #define BIAS 1
 
-string solution = "zach";
+string genePool = "abcdefghijklmnopqrstuvwxyz";
+string solution = "genetic";
 int dnaLength = solution.size();
 
-char randomLetter()
+char randomGene()
 {
-  return "abcdefghijklmnopqrstuvwxyz"[rand() % 26];
+  return genePool[rand() % genePool.length()];
 }
 
 vector<char> randomDNA()
@@ -23,7 +25,7 @@ vector<char> randomDNA()
   vector<char> dna;
 
   while (dna.size() < dnaLength)
-    dna.push_back(randomLetter());
+    dna.push_back(randomGene());
 
   return dna;
 }
@@ -31,8 +33,8 @@ vector<char> randomDNA()
 class Wordsearcher : public Lifeform<char>
 {
 public:
-  Wordsearcher(const vector<char> &dna) : Lifeform<char>(dna) {};
   Wordsearcher() : Lifeform<char>({randomDNA()}) {};
+  Wordsearcher(const vector<char> &dna) : Lifeform<char>(dna) {};
 
   float fitness() override
   {
@@ -47,7 +49,7 @@ public:
 
   void mutate() override
   {
-    dna[rand() % dna.size()] = randomLetter();
+    dna[rand() % dna.size()] = randomGene();
   }
 
   Wordsearcher breed(const Wordsearcher &partner)
@@ -73,11 +75,10 @@ int main(int argc, char **argv)
   while (genetic.bestMember().fitness() < 1)
     genetic.iterate(true);
 
-  cout << "Best DNA: ";
-  for (auto c : genetic.bestMember().dna)
-    cout << c;
+  int guesses = POPULATION * genetic.getGenCount();
+  double bruteExpectation = pow(26, dnaLength);
 
-  cout << endl
+  cout << "Completed in " << guesses << " guesses, compared to the brute force expected " << bruteExpectation << endl
        << endl;
 
   return 0;

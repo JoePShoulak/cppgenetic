@@ -41,7 +41,7 @@ class Genetic
 {
   int populationLimit;
   float mutationRate;
-  int genCount = 0;
+  int genCount = 1;
   float bias = 1; // 0 means no bias (everyone chosen evenly)
                   // 1 results in a basic weighted sum
                   // (0, 1) results in a smaller bias
@@ -67,6 +67,11 @@ class Genetic
 
 public:
   Genetic(int populationLimit, float mutationRate, float bias = 1) : populationLimit(populationLimit), mutationRate(mutationRate), bias(bias) {};
+
+  int getGenCount()
+  {
+    return genCount;
+  }
 
   void begin(bool verbose = false)
   {
@@ -121,9 +126,14 @@ public:
 
   void display()
   {
-    cout << "Gen Cout: " << genCount << endl;
+    cout << "Gen count: " << genCount << endl;
     cout << "Pop size: " << population.size() << endl;
-    cout << "Best fitness: " << bestMember().fitness() << endl
+    cout << "Best fitness: " << bestMember().fitness() << endl;
+    cout << "Best DNA: ";
+    for (auto k : bestMember().dna)
+      cout << k;
+
+    cout << "\n"
          << endl;
   }
 };
