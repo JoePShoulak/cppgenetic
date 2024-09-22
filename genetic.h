@@ -19,7 +19,6 @@ public:
 
   void begin()
   {
-    srand(time(0));
 
     while (population.size() < populationLimit)
     {

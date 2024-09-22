@@ -8,15 +8,20 @@
 
 using namespace std;
 
+char randomLetter()
+{
+  return "abcdefghijklmnopqrstuvwxyz"[rand() % 26];
+}
+
 class Codebreaker : public Lifeform<char>
 {
 public:
   Codebreaker(const vector<char> &dna) : Lifeform<char>(dna) {};
-  Codebreaker() : Lifeform<char>({"abcdefghijklmnopqrstuvwxyz"[rand() % 26],
-                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
-                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
-                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
-                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26]}) {};
+  Codebreaker() : Lifeform<char>({randomLetter(),
+                                  randomLetter(),
+                                  randomLetter(),
+                                  randomLetter(),
+                                  randomLetter()}) {};
 
   float fitness() override
   {
