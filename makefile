@@ -12,6 +12,6 @@ clean:
 remake: clean main.exe
 
 count:
-	find . -type f \( -name "*.cpp" -o -name "*.h" \) ! -path "./ext/*" ! -path "./tests/*" ! -name pugixml.cpp -exec wc -l {} +
+	find . -type f \( -name "*.cpp" -o -name "*.h" \) -exec wc -l {} +
 
 .PHONY: clean count remake
