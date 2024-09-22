@@ -61,7 +61,7 @@ class Genetic
     int i = 0;
 
     while (randomNum > 0)
-      randomNum -= population[i++].fitness();
+      randomNum -= biasedFitness(population[i++]);
 
     return population[i - 1];
   }
@@ -76,6 +76,12 @@ public:
   int getGenCount()
   {
     return genCount;
+  }
+
+  // Returns fitness but with a selection bias
+  float biasedFitness(T member)
+  {
+    return pow(member.fitness(), bias);
   }
 
   // Initialize the population, verbose flag for output
@@ -117,7 +123,7 @@ public:
         population[i].mutate();
 
       // Find the best member and total fitness while we're looping over everything
-      totalFitness += pow(population[i].fitness(), bias);
+      totalFitness += biasedFitness(population[i]);
 
       if (i == 0)
         bestMember = population[i];
