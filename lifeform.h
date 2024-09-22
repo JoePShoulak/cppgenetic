@@ -2,31 +2,32 @@
 #define LIFEFORM_H
 
 #include <vector>
+#include <limits>
+
+using namespace std;
 
 template <typename T>
 class Lifeform
 {
 public:
-  std::vector<T> dna;
+  vector<T> dna;
 
-  Lifeform<T>(const std::vector<T> &dna) : dna(dna){};
+  Lifeform<T>(const vector<T> &dna) : dna(dna){};
 
-  virtual float evaluate()
+  // score the lifeform
+  virtual float fitness()
   {
-    // score the lifeform
-    return 0;
+    return -numeric_limits<float>::max();
   }
 
+  // combine the DNA in some way
   virtual Lifeform breed(const Lifeform &partner)
   {
-    // combine the DNA in some way
     return Lifeform(dna);
   }
 
-  virtual void mutate()
-  {
-    // do something to DNA
-  }
+  // do something to DNA
+  virtual void mutate() {}
 };
 
 #endif

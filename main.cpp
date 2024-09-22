@@ -1,13 +1,14 @@
 #include <iostream>
 
 #include "codebreaker.h"
+#include "genetic.h"
 
 using namespace std;
 
-int main(int argc, char **argv)
+void testWithoutGenetics()
 {
-  Codebreaker alice({'c', 'b', 'a'});
-  Codebreaker bob({'f', 'e', 'd'});
+  Codebreaker alice;
+  Codebreaker bob;
 
   alice.summarize("alice");
   bob.summarize("bob");
@@ -25,6 +26,29 @@ int main(int argc, char **argv)
   charlie.mutate();
 
   charlie.summarize("charlie");
+}
+
+int main(int argc, char **argv)
+{
+  // testWithoutGenetics();
+
+  Genetic<Codebreaker> genetic(10, 1);
+
+  genetic.begin();
+  genetic.display();
+
+  while (genetic.bestMember().fitness() < 1)
+  {
+    genetic.iterate();
+    genetic.display();
+  }
+
+  cout << "\nBest result: " << endl;
+  for (auto c : genetic.bestMember().dna)
+    cout << c << " ";
+
+  cout << "\n"
+       << endl;
 
   return 0;
 }

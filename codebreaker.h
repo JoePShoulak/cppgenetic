@@ -6,12 +6,17 @@
 
 #include "lifeform.h"
 
+using namespace std;
+
 class Codebreaker : public Lifeform<char>
 {
 public:
-  Codebreaker(const std::vector<char> &dna) : Lifeform<char>(dna) {};
+  Codebreaker(const vector<char> &dna) : Lifeform<char>(dna) {};
+  Codebreaker() : Lifeform<char>({"abcdefghijklmnopqrstuvwxyz"[rand() % 26],
+                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
+                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26]}) {};
 
-  float evaluate() override
+  float fitness() override
   {
     float score = 0;
 
@@ -36,8 +41,7 @@ public:
 
   Codebreaker breed(const Codebreaker &partner)
   {
-    std::vector<char> newDna;
-    srand(time(0));
+    vector<char> newDna;
 
     for (int i = 0; i < dna.size(); i++)
       newDna.push_back((rand() % 2 == 0 ? dna : partner.dna)[i]);
@@ -45,23 +49,23 @@ public:
     return Codebreaker(newDna);
   }
 
-  void summarize(std::string name)
+  void summarize(string name)
   {
-    std::cout << "Codebreaker " << name << std::endl;
-    std::cout << "  DNA: ";
+    cout << "Codebreaker " << name << endl;
+    cout << "  DNA: ";
 
     for (int i = 0; i < dna.size(); i++)
     {
-      std::cout << dna[i];
+      cout << dna[i];
 
       if (i != dna.size() - 1)
-        std::cout << ", ";
+        cout << ", ";
     }
 
-    std::cout << std::endl;
+    cout << endl;
 
-    std::cout << "  SCORE: " << evaluate() << std::endl
-              << std::endl;
+    cout << "  SCORE: " << fitness() << endl
+         << endl;
   }
 };
 
