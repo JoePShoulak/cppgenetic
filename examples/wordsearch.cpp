@@ -1,27 +1,33 @@
-#ifndef CODEBREAKER_H
-#define CODEBREAKER_H
-
 #include <vector>
 #include <iostream>
 
-#include "genetic.h"
+#include "../genetic.h"
 
 using namespace std;
 
-vector<char> solution({'j', 'o', 'e'});
+string solution = "genetic";
+int dnaLength = solution.size();
 
 char randomLetter()
 {
   return "abcdefghijklmnopqrstuvwxyz"[rand() % 26];
 }
 
+vector<char> randomDNA()
+{
+  vector<char> dna;
+
+  while (dna.size() < dnaLength)
+    dna.push_back(randomLetter());
+
+  return dna;
+}
+
 class Wordsearcher : public Lifeform<char>
 {
 public:
   Wordsearcher(const vector<char> &dna) : Lifeform<char>(dna) {};
-  Wordsearcher() : Lifeform<char>({randomLetter(),
-                                   randomLetter(),
-                                   randomLetter()}) {};
+  Wordsearcher() : Lifeform<char>({randomDNA()}) {};
 
   float fitness() override
   {
@@ -52,4 +58,24 @@ public:
   }
 };
 
-#endif
+int main(int argc, char **argv)
+{
+  cout << endl;
+  srand(time(0));
+
+  Genetic<Wordsearcher> genetic(100, 0.01);
+
+  genetic.begin(true);
+
+  while (genetic.bestMember().fitness() < 1)
+    genetic.iterate(true);
+
+  cout << "Best DNA: ";
+  for (auto c : genetic.bestMember().dna)
+    cout << c;
+
+  cout << endl
+       << endl;
+
+  return 0;
+}

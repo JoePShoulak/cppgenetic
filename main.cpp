@@ -10,7 +10,7 @@ int main(int argc, char **argv)
   cout << endl;
   srand(time(0));
 
-  Genetic<Codebreaker> genetic(100, 0.1);
+  Genetic<Wordsearcher> genetic(100, 0.1);
 
   genetic.begin(true);
 

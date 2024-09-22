@@ -8,10 +8,14 @@ main.exe: main.cpp
 
 clean:
 	rm -f *.exe *.o
+	cd examples && rm -f *.exe *.o
 
 remake: clean main.exe
 
 count:
 	find . -type f \( -name "*.cpp" -o -name "*.h" \) -exec wc -l {} +
 
-.PHONY: clean count remake
+examples:
+	cd examples && make
+
+.PHONY: clean count remake examples
