@@ -15,6 +15,7 @@ public:
   Codebreaker() : Lifeform<char>({"abcdefghijklmnopqrstuvwxyz"[rand() % 26],
                                   "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
                                   "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
+                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
                                   "abcdefghijklmnopqrstuvwxyz"[rand() % 26]}) {};
 
   float fitness() override
