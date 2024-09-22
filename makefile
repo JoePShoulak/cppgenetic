@@ -14,8 +14,4 @@ remake: clean main.exe
 count:
 	find . -type f \( -name "*.cpp" -o -name "*.h" \) ! -path "./ext/*" ! -path "./tests/*" ! -name pugixml.cpp -exec wc -l {} +
 
-# tests: $(BINARY)
-# 	$(MAKE) -C tests/
-# 	./tests/bin/run_tests.exe
-
 .PHONY: clean count remake
