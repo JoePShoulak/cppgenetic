@@ -7,62 +7,62 @@
 
 std::string genePool = "abcdefghijklmnopqrstuvwxyz"; // All possible genes
 std::string solution = "genetic";                    // The word we're searching for
-int dnaLength = solution.size();                     // DNA length must be solution length
+int genomeLength = solution.size();                  // Genome length must be solution length
 
 // ====== MINOR HELPER FUNCTIONS ======
-// A method for getting one random member of the gene pool
+// A method for getting one random gene from the gene pool
 char randomGene()
 {
   return genePool[rand() % genePool.length()];
 }
 
 // A method for constructing an entire random set of genes
-std::vector<char> randomDNA()
+std::vector<char> randomGenome()
 {
-  std::vector<char> dna;
+  std::vector<char> genome;
 
-  while (dna.size() < dnaLength)
-    dna.push_back(randomGene());
+  while (genome.size() < genomeLength)
+    genome.push_back(randomGene());
 
-  return dna;
+  return genome;
 }
 
 // ====== LIFEFORM SUBCLASS DEFINITION ======
 class Wordsearcher : public Lifeform<char>
 {
 public:
-  // Default constructor for the initial population will be random DNA
-  Wordsearcher() : Lifeform<char>({randomDNA()}) {};
-  // We must be able to create a new Wordsearcher by giving it a specific DNA
-  Wordsearcher(const std::vector<char> &dna) : Lifeform<char>(dna) {};
+  // Default constructor for the initial population will be random genome
+  Wordsearcher() : Lifeform<char>({randomGenome()}) {};
+  // We must be able to create a new Wordsearcher by giving it a specific genome
+  Wordsearcher(const std::vector<char> &genome) : Lifeform<char>(genome) {};
 
   // We calculate the fitness by counting the correct letters in correct positions
   float fitness() override
   {
     float score = 0;
 
-    for (int i = 0; i < dna.size(); i++)
-      if (dna[i] == solution[i])
+    for (int i = 0; i < genome.size(); i++)
+      if (genome[i] == solution[i])
         score++;
 
-    return score / dna.size();
+    return score / genome.size();
   }
 
   // Upon mutation, one gene gets replaced with a random gene
   void mutate() override
   {
-    dna[rand() % dna.size()] = randomGene();
+    genome[rand() % genome.size()] = randomGene();
   }
 
   // Breeding will randomly choose between which parent to take from for each gene
   Wordsearcher breed(const Wordsearcher &partner)
   {
-    std::vector<char> newDna;
+    std::vector<char> newgenome;
 
-    for (int i = 0; i < dna.size(); i++)
-      newDna.push_back((rand() % 2 == 0 ? dna : partner.dna)[i]);
+    for (int i = 0; i < genome.size(); i++)
+      newgenome.push_back((rand() % 2 == 0 ? genome : partner.genome)[i]);
 
-    return Wordsearcher(newDna);
+    return Wordsearcher(newgenome);
   }
 };
 
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
   genetic.iterateUntil(1, true); // Run until we reach out fitness goal, true for verbose
 
   int guesses = POPULATION * genetic.getGenCount();
-  double bruteExpectation = pow(genePool.length(), dnaLength);
+  double bruteExpectation = pow(genePool.length(), genomeLength);
   float percent = guesses / bruteExpectation * 100;
 
   // Summarize our results

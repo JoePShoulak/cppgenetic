@@ -2,7 +2,6 @@
 #define GENETIC_H
 
 #include <vector>
-#include <limits>
 #include <cmath>
 #include <iostream>
 
@@ -12,23 +11,24 @@ template <typename T>
 class Lifeform
 {
 public:
-  std::vector<T> dna;
+  std::vector<T> genome;
 
-  Lifeform<T>(const std::vector<T> &dna) : dna(dna){};
+  Lifeform<T>(const std::vector<T> &genome) : genome(genome){};
 
   // score the lifeform
+  // TODO: possibly validate: fitness cannot be negative
   virtual float fitness()
   {
-    return -std::numeric_limits<float>::max();
+    return 0;
   }
 
-  // combine the DNA in some way
+  // combine the genome in some way
   virtual Lifeform breed(const Lifeform &partner)
   {
-    return Lifeform(dna);
+    return Lifeform(genome);
   }
 
-  // do something to DNA
+  // do something to genome
   virtual void mutate() {}
 };
 
@@ -38,13 +38,16 @@ template <typename T>
 class Genetic
 {
   T bestMember;
-  int popLimit;
-  float mutationRate;
   int genCount = 1;
-  float bias = 1; // 0 means no bias (everyone chosen evenly)
-                  // 1 results in a basic weighted sum
-                  // (0, 1) results in a smaller bias (for fitnesses >1, inverted otherwise)
-                  // (1, inf) results in a larger bias (for fitnesses >1, inverted otherwise)
+  int popLimit;       // popLimit must be 2+
+  float mutationRate; // mutationRate should be >0 (0 means no mutation)
+  float bias = 1;     /* BIAS
+                        Cannot be negative
+                        0 means no bias (everyone chosen evenly)
+                        1 results in a basic weighted sum
+                        (0, 1) results in a smaller bias (for fitnesses >1, inverted otherwise)
+                        (1, inf) results in a larger bias (for fitnesses >1, inverted otherwise)
+                      */
 
   std::vector<T> population;
 
@@ -56,10 +59,10 @@ class Genetic
     for (T m : population)
       totalFitness += pow(m.fitness(), bias);
 
-    int i = 0;
     // totalFitness could be 0, so we have to max with 1 to avoid % 0
     // randomNum % N>0 could be 0, which would return an invalid member, so max with 1 again
     int randomNum = std::max(rand() % std::max(int(totalFitness), 1), 1);
+    int i = 0;
 
     while (randomNum > 0)
       randomNum -= population[i++].fitness();
@@ -139,8 +142,8 @@ public:
     std::cout << "Gen count: " << genCount << std::endl;
     std::cout << "Pop size: " << population.size() << std::endl;
     std::cout << "Best fitness: " << bestMember.fitness() << std::endl;
-    std::cout << "Best DNA: ";
-    for (auto k : bestMember.dna)
+    std::cout << "Best genome: ";
+    for (auto k : bestMember.genome)
       std::cout << k;
 
     std::cout << std::endl
