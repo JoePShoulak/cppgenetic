@@ -66,6 +66,22 @@ class Genetic
     return population[i - 1];
   }
 
+  // Returns fitness but with a selection bias
+  // TODO: Not sure how this works with negatives of mins
+  float biasedFitness(T member)
+  {
+    int sign = 1;
+    float f = member.fitness();
+
+    if (f < 0)
+    {
+      f *= -1;
+      sign *= -1;
+    }
+
+    return sign * pow(f, bias);
+  }
+
 public:
   // TODO: validate some of these numbers? They should all be either positive or non-neg
   Genetic(int popLimit, float mutationRate, float bias = 1) : popLimit(popLimit),
@@ -76,12 +92,6 @@ public:
   int getGenCount()
   {
     return genCount;
-  }
-
-  // Returns fitness but with a selection bias
-  float biasedFitness(T member)
-  {
-    return pow(member.fitness(), bias);
   }
 
   // Initialize the population, verbose flag for output
