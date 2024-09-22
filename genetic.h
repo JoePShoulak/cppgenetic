@@ -38,6 +38,7 @@ template <typename T>
 class Genetic
 {
   T bestMember;
+  float totalFitness = 0;
   int genCount = 1;
   int popLimit;       // popLimit must be 2+
   float mutationRate; // mutationRate should be >0 (0 means no mutation)
@@ -54,11 +55,6 @@ class Genetic
   // Select a member with bias for fitness from the population
   T selectMember()
   {
-    float totalFitness;
-
-    for (T m : population)
-      totalFitness += pow(m.fitness(), bias);
-
     // totalFitness could be 0, so we have to max with 1 to avoid % 0
     // randomNum % N>0 could be 0, which would return an invalid member, so max with 1 again
     int randomNum = std::max(rand() % std::max(int(totalFitness), 1), 1);
@@ -86,7 +82,11 @@ public:
   void begin(bool verbose = false)
   {
     while (population.size() < popLimit)
-      population.push_back(T());
+    {
+      T newMember;
+      totalFitness += newMember.fitness();
+      population.push_back(newMember);
+    }
 
     if (verbose)
       display();
@@ -108,6 +108,7 @@ public:
     }
 
     population = newPopulation;
+    totalFitness = 0;
 
     for (int i = 0; i < population.size(); i++)
     {
@@ -115,7 +116,9 @@ public:
       if (rand() % 100 / 100 < mutationRate)
         population[i].mutate();
 
-      // Find the best member while we're looping over everything
+      // Find the best member and total fitness while we're looping over everything
+      totalFitness += pow(population[i].fitness(), bias);
+
       if (i == 0)
         bestMember = population[i];
       else if (population[i].fitness() > bestMember.fitness())
