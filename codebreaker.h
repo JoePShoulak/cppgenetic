@@ -14,6 +14,8 @@ public:
   Codebreaker(const vector<char> &dna) : Lifeform<char>(dna) {};
   Codebreaker() : Lifeform<char>({"abcdefghijklmnopqrstuvwxyz"[rand() % 26],
                                   "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
+                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
+                                  "abcdefghijklmnopqrstuvwxyz"[rand() % 26],
                                   "abcdefghijklmnopqrstuvwxyz"[rand() % 26]}) {};
 
   float fitness() override

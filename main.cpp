@@ -28,11 +28,9 @@ void testWithoutGenetics()
   charlie.summarize("charlie");
 }
 
-int main(int argc, char **argv)
+void testWithGenetics()
 {
-  // testWithoutGenetics();
-
-  Genetic<Codebreaker> genetic(10, 1);
+  Genetic<Codebreaker> genetic(10, 0.1);
 
   genetic.begin();
   genetic.display();
@@ -49,6 +47,12 @@ int main(int argc, char **argv)
 
   cout << "\n"
        << endl;
+}
+
+int main(int argc, char **argv)
+{
+  // testWithoutGenetics();
+  testWithGenetics();
 
   return 0;
 }
