@@ -2,9 +2,11 @@
 #define GENETIC_H
 
 #include <vector>
+#include <limits>
 
 using namespace std;
 
+// Genetic class handles the lifeforms and is the iterator class
 template <typename T>
 class Genetic
 {
@@ -84,6 +86,32 @@ public:
     cout << "Pop size: " << population.size() << endl;
     cout << "Best fitness: " << bestMember().fitness() << endl;
   }
+};
+
+// Lifeform class, used as the members of the genetic class.
+// One must make a child class off this with definitions for the methods so it can function.
+template <typename T>
+class Lifeform
+{
+public:
+  vector<T> dna;
+
+  Lifeform<T>(const vector<T> &dna) : dna(dna){};
+
+  // score the lifeform
+  virtual float fitness()
+  {
+    return -numeric_limits<float>::max();
+  }
+
+  // combine the DNA in some way
+  virtual Lifeform breed(const Lifeform &partner)
+  {
+    return Lifeform(dna);
+  }
+
+  // do something to DNA
+  virtual void mutate() {}
 };
 
 #endif

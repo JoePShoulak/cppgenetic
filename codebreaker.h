@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-#include "lifeform.h"
+#include "genetic.h"
 
 using namespace std;
 

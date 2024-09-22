@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "codebreaker.h"
 #include "genetic.h"
+#include "codebreaker.h"
 
 using namespace std;
 
