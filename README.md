@@ -8,7 +8,7 @@ A library for using the Genetic Algorithm in cpp
 
 Since CPPGenetic is contained within a single headerfile, it's easy enough to download `genetic.h` and include it in your file.
 
-If you want to play with the examples, simple clone this repo and run `make` in the root directory.
+If you want to play with the examples, simply run `git clone https://github.com/JoePShoulak/cppgenetic.git` and run `make` in the root directory.
 
 ## Usage
 
