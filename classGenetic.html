@@ -99,15 +99,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a300c6a64a5e03b93bfdecd7a56b64198" id="r_a300c6a64a5e03b93bfdecd7a56b64198"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGenetic.html#a300c6a64a5e03b93bfdecd7a56b64198">iterateUntil</a> (float fitnessGoal, bool verbose=false)</td></tr>
 <tr class="memdesc:a300c6a64a5e03b93bfdecd7a56b64198"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call <a class="el" href="classGenetic.html#a94d9346f9227f923729256bc674e54d8" title="Create the next generation by progenation and mutation.">iterate()</a> until our bestMember has a fitness at or above our goal.  <br /></td></tr>
 <tr class="separator:a300c6a64a5e03b93bfdecd7a56b64198"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31901018596e0cdaa2ea261543400565" id="r_a31901018596e0cdaa2ea261543400565"><td class="memItemLeft" align="right" valign="top"><a id="a31901018596e0cdaa2ea261543400565" name="a31901018596e0cdaa2ea261543400565"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>display</b> ()</td></tr>
-<tr class="memdesc:a31901018596e0cdaa2ea261543400565"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display a summary of the current generation. <br /></td></tr>
-<tr class="separator:a31901018596e0cdaa2ea261543400565"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5d76459ad9a2d53d2c947d802df0415" id="r_aa5d76459ad9a2d53d2c947d802df0415"><td class="memItemLeft" align="right" valign="top"><a id="aa5d76459ad9a2d53d2c947d802df0415" name="aa5d76459ad9a2d53d2c947d802df0415"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>display</b> ()</td></tr>
+<tr class="memdesc:aa5d76459ad9a2d53d2c947d802df0415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Display a summary of the current generation. <br /></td></tr>
+<tr class="separator:aa5d76459ad9a2d53d2c947d802df0415"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
 class Genetic&lt; T &gt;</div><p>A class for managing the <a class="el" href="classGenetic.html" title="A class for managing the Genetic Algorithm and Populations of Lifeforms.">Genetic</a> Algorithm and Populations of Lifeforms. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Restrict to Lifeforms only. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd><p class="startdd">Restrict to Lifeforms only. </p>
+<p class="enddd">Make max an enum? </p>
+</dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9e5fcf03a655b18414a822622d65fc0c" name="a9e5fcf03a655b18414a822622d65fc0c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9e5fcf03a655b18414a822622d65fc0c">&#9670;&#160;</a></span>Genetic()</h2>
@@ -158,7 +160,9 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Constructor for the <a class="el" href="classGenetic.html" title="A class for managing the Genetic Algorithm and Populations of Lifeforms.">Genetic</a> class. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>validate some of these numbers? They should all be either positive or non-neg </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd><p class="startdd">validate some of these numbers? They should all be either positive or non-neg </p>
+<p class="enddd">max=false doesn't really work </p>
+</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">popLimit</td><td>The population limit. </td></tr>
