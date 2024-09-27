@@ -47,6 +47,7 @@ public:
 
 /**
  * @todo Restrict to Lifeforms only.
+ * @todo Make max an enum?
  * @brief A class for managing the Genetic Algorithm and Populations of Lifeforms
  */
 template <typename T>
@@ -105,22 +106,28 @@ class Genetic
       sign *= -1;
     }
 
-    return sign * pow(f, bias);
+    float r = sign * pow(f, bias);
+
+    return max ? r : 1 / r; // If we're minning we need to invert r to pick the best ones
   }
 
 public:
   /**
    * @todo validate some of these numbers? They should all be either positive or non-neg
+   * @todo max=false doesn't really work
    * @brief Constructor for the Genetic class
    * @param popLimit The population limit.
    * @param mutationRate The rate of mutation.
    * @param bias The mutation bias.
    * @param max If true, select for max fitness. Otherwise select for min fitness.
    */
-  Genetic(int popLimit, float mutationRate, float bias = 1, bool max = true) : popLimit(popLimit),
-                                                                               mutationRate(mutationRate),
-                                                                               bias(bias),
-                                                                               max(max) {};
+  Genetic(int popLimit,
+          float mutationRate,
+          float bias = 1,
+          bool max = true) : popLimit(popLimit),
+                             mutationRate(mutationRate),
+                             bias(bias),
+                             max(max) {};
 
   /**
    * @brief Accessor for genCount
@@ -203,15 +210,18 @@ public:
    */
   void iterateUntil(float fitnessGoal, bool verbose = false)
   {
-    while (bestMember.fitness() < fitnessGoal)
+    while (max ? bestMember.fitness() < fitnessGoal : bestMember.fitness() > fitnessGoal)
       iterate(verbose);
   }
 
   /**
    * @brief Display a summary of the current generation
    */
-  void display()
+  std::string display()
   {
+    // TODO: Should this return a string instead of output,
+    // and leave the obligation of displaying to the user?
+
     std::cout << "Gen count: " << genCount << std::endl;
     std::cout << "Pop size: " << population.size() << std::endl;
     std::cout << "Best fitness: " << bestMember.fitness() << std::endl;

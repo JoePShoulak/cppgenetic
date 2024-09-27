@@ -10,4 +10,4 @@ clean:
 count:
 	find . -type f \( -name "*.cpp" -o -name "*.h" \) -exec wc -l {} +
 
-.PHONY: default examples clean count
+.PHONY: default examples clean count shove
